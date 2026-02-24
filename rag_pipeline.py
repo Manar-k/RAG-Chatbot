@@ -3,12 +3,17 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_classic.memory import ConversationBufferMemory
+# from langchain_community.memory import ConversationBufferMemory
+from langchain_core.chat_history import InMemoryChatMessageHistory
 
 load_dotenv()
-os.getenv("GOOGLE_API_KEY")
+print(os.getenv("GOOGLE_API_KEY"))
+
+chat_history = InMemoryChatMessageHistory()
+
 # upload pdf file
 def load_documents(pdf_path):
     loader = PyPDFLoader(pdf_path)
@@ -58,8 +63,9 @@ def build_chain(vectorstore):
     )
 
     memory = ConversationBufferMemory(
-        memory_key="chat_history",
+        chat_memory = chat_history,
         return_messages=True,
+        memory_key="chat_history",
         output_key="answer"
     )
 
