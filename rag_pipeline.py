@@ -8,8 +8,7 @@ from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_classic.memory import ConversationBufferMemory
 
 load_dotenv()
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCNy2nVLBaTNLk7G4T1CyXddW9pIXRAVG8" 
-
+os.getenv("GOOGLE_API_KEY")
 # upload pdf file
 def load_documents(pdf_path):
     loader = PyPDFLoader(pdf_path)
